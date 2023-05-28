@@ -24,7 +24,7 @@ class RetrofitParse {
 
     interface MovieApi {
         @GET("movie/popular")
-        fun getPopularMovie(
+        fun getPopularMovies(
             @Query("api_key") apiKey: String,
             @Query("page") pageNumber: Int
         ): Call<Movies>
@@ -36,8 +36,8 @@ class RetrofitParse {
         ): Call<Movie>
     }
 
-    fun getPopularMovie(pageNumber: Int,callback: (Movies) -> Unit) {
-        api.getPopularMovie(RetrofitUrls.API_KEY,pageNumber).enqueue(object : Callback<Movies> {
+    fun getPopularMovies(pageNumber: Int,callback: (Movies) -> Unit) {
+        api.getPopularMovies(RetrofitUrls.API_KEY,pageNumber).enqueue(object : Callback<Movies> {
             override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
                 if (response.isSuccessful) {
                     val movies = response.body()
@@ -53,6 +53,7 @@ class RetrofitParse {
 
             override fun onFailure(call: Call<Movies>, t: Throwable) {
                 // Обработка ошибки
+                println(111)
             }
         })
     }
