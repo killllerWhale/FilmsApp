@@ -24,38 +24,24 @@ class RetrofitParse {
 
     interface MovieApi {
         @GET("movie/popular")
-        fun getPopularMovies(
+        suspend fun getPopularMovies(
             @Query("api_key") apiKey: String,
             @Query("page") pageNumber: Int
-        ): Call<Movies>
+        ): Movies
 
         @GET("movie/{id}")
-        fun getMovieById(
+        suspend fun getMovieById(
             @Path("id") idMovie: Int,
             @Query("api_key") apiKey: String
-        ): Call<Movie>
+        ): Movie
     }
 
-    fun getPopularMovies(pageNumber: Int,callback: (Movies) -> Unit) {
-        api.getPopularMovies(RetrofitUrls.API_KEY,pageNumber).enqueue(object : Callback<Movies> {
-            override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
-                if (response.isSuccessful) {
-                    val movies = response.body()
-                    if (movies != null) {
-                        callback(movies)
-                    } else {
-                        // Обработка ошибки
-                    }
-                } else {
-                    // Обработка ошибки
-                }
-            }
-
-            override fun onFailure(call: Call<Movies>, t: Throwable) {
-                // Обработка ошибки
-                println(111)
-            }
-        })
+    suspend fun getPopularMovies(pageNumber: Int): Movies {
+        return try {
+            api.getPopularMovies(RetrofitUrls.API_KEY,pageNumber)
+        } catch (e: Exception) {
+            Movies(pageNumber, listOf())
+        }
     }
 
     fun getMovieById(idMovie: Int,callback: (Movie) -> Unit) {
