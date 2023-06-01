@@ -44,25 +44,25 @@ class RetrofitParse {
         }
     }
 
-    fun getMovieById(idMovie: Int,callback: (Movie) -> Unit) {
-        api.getMovieById(idMovie, RetrofitUrls.API_KEY).enqueue(object : Callback<Movie> {
-            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-                if (response.isSuccessful) {
-                    val movie = response.body()
-                    if (movie != null) {
-                        callback(movie)
-                    } else {
-                        // Обработка ошибки
-                    }
-                } else {
-                    // Обработка ошибки
-                }
-            }
-
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
-                // Обработка ошибки
-            }
-        })
-    }
+//    fun getMovieById(idMovie: Int,callback: (Movie) -> Unit) {
+//        api.getMovieById(idMovie, RetrofitUrls.API_KEY).enqueue(object : Callback<Movie> {
+//            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
+//                if (response.isSuccessful) {
+//                    val movie = response.body()
+//                    if (movie != null) {
+//                        callback(movie)
+//                    } else {
+//                        // Обработка ошибки
+//                    }
+//                } else {
+//                    // Обработка ошибки
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<Movie>, t: Throwable) {
+//                // Обработка ошибки
+//            }
+//        })
+//    }
 
 }
