@@ -42,7 +42,7 @@ class MoviesFragment : Fragment() {
         val imageLoader = ImageLoader.Builder(requireContext())
             .build()
         val movieAdapter = MoviesAdapter({ movie ->
-            //gg
+            loadFragment(MovieFragment(), movie)
         }, imageLoader)
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerView.adapter = movieAdapter
@@ -57,9 +57,15 @@ class MoviesFragment : Fragment() {
         }
     }
 
-    private fun loadFragment(fragment: Fragment) {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .commit()
+    private fun loadFragment(fragment: Fragment, movie: MovieItem) {
+        val bundle = Bundle()
+        bundle.putParcelable("movie", movie)
+        fragment.arguments = bundle
+
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+        transaction.replace(R.id.container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }

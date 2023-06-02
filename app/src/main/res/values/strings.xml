@@ -3,4 +3,12 @@
     <string name="todo">TODO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_the_film">About the film</string>
+    <string name="year_of_production">Year of production</string>
+    <string name="country">Country</string>
+    <string name="genre">Genre</string>
+    <string name="director">Director</string>
+    <string name="more_detailed">More detailed</string>
+    <string name="review">Review</string>
+    <string name="slogan">Slogan</string>
 </resources>
