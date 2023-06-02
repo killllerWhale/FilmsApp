@@ -55,7 +55,5 @@ class MovieFragment : Fragment() {
                 imageLoader.enqueue(request)
             }
         }
-
     }
-
 }
