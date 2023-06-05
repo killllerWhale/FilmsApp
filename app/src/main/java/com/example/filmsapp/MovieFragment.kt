@@ -1,59 +1,58 @@
 package com.example.filmsapp
 
-
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
-import coil.ImageLoader
-import coil.request.ImageRequest
+import coil.load
+import coil.request.CachePolicy
 import com.example.filmsapp.databinding.FragmentMovieBinding
 import com.example.filmsapp.retrofit2.RetrofitParse
 import com.example.filmsapp.retrofit2.RetrofitUrls
 import com.example.filmsapp.retrofit2.dataClases.Movie
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieFragment : Fragment() {
+class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
+    override lateinit var binding: FragmentMovieBinding
 
-    private lateinit var binding: FragmentMovieBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun makeBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentMovieBinding {
         binding = FragmentMovieBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return binding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var movie: MovieItem? = null
-        var movieInDetail: Movie? = null
-        arguments?.let {
-            movie = it.getParcelable("movie")
+        val movie: MovieItem? = arguments?.parcelable("movie")
+        binding.titleText.text = movie?.title
+        binding.reviewText.text = movie?.overview
+        binding.imageMovie.load("${RetrofitUrls.IMAGE_URL}${movie?.poster_path}") {
+            memoryCachePolicy(CachePolicy.ENABLED)
         }
-        lifecycleScope.launch {
-            val movieId = movie?.id ?: return@launch
-            movieInDetail = RetrofitParse().getMovieById(movieId)
-            with(binding) {
-                titleText.text = movieInDetail!!.title
-                yearOfProductionText.text = movieInDetail!!.release_date
-                countryText.text = movieInDetail!!.production_countries.joinToString(", ") { it.name }
-                genreText.text = movieInDetail!!.genres.joinToString(", ") { it.name }
-                directorText.text = movieInDetail!!.production_companies.joinToString(", ") { it.name }
-                reviewText.text = movieInDetail!!.overview
-                sloganText.text = movieInDetail!!.tagline
+        CoroutineScope(Dispatchers.Main).launch {
+            val movieInDetail: Movie = RetrofitParse().getMovieById(movie?.id ?: 1)
 
-                val imageLoader = ImageLoader(binding.root.context)
-                val request = ImageRequest.Builder(binding.root.context)
-                    .data("${RetrofitUrls.IMAGE_URL}${movieInDetail!!.poster_path}")
-                    .target(imageMovie)
-                    .build()
-                imageLoader.enqueue(request)
+            with(binding) {
+                yearOfProductionText.text = movieInDetail.release_date
+                countryText.text = movieInDetail.production_countries.joinToString(", ") { it.name }
+                genreText.text = movieInDetail.genres.joinToString(", ") { it.name }
+                directorText.text =
+                    movieInDetail.production_companies.joinToString(", ") { it.name }
+                sloganText.text = movieInDetail.tagline
+
             }
         }
+    }
+
+    inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+        SDK_INT >= 33 -> getParcelable(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelable(key) as? T
     }
 }

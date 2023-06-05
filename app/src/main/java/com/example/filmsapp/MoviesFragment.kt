@@ -9,9 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import coil.ImageLoader
 import com.example.filmsapp.adapter.MoviesAdapter
 import com.example.filmsapp.databinding.FragmentMoviesBinding
 import com.example.filmsapp.pagingSource.MoviePagingSource
@@ -21,16 +18,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MoviesFragment : Fragment() {
-    private lateinit var binding: FragmentMoviesBinding
+class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
+    override lateinit var binding: FragmentMoviesBinding
     private val retrofitParse = RetrofitParse()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMoviesBinding.inflate(layoutInflater, container, false)
-        return binding.root
+    override fun makeBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentMoviesBinding {
+        binding = FragmentMoviesBinding.inflate(inflater, container, false)
+        return binding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,12 +36,9 @@ class MoviesFragment : Fragment() {
     }
 
     private fun loadData() {
-        val imageLoader = ImageLoader.Builder(requireContext())
-            .build()
-        val movieAdapter = MoviesAdapter({ movie ->
+        val movieAdapter = MoviesAdapter { movie ->
             loadFragment(MovieFragment(), movie)
-        }, imageLoader)
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2, LinearLayoutManager.HORIZONTAL, false)
+        }
         binding.recyclerView.adapter = movieAdapter
         val moviesFlow: Flow<PagingData<MovieItem>> = Pager(config = PagingConfig(pageSize = 20)) {
             MoviePagingSource(retrofitParse)
@@ -63,7 +57,12 @@ class MoviesFragment : Fragment() {
         fragment.arguments = bundle
 
         val transaction = parentFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out)
+        transaction.setCustomAnimations(
+            R.anim.slide_in,
+            R.anim.fade_out,
+            R.anim.fade_in,
+            R.anim.slide_out
+        )
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
