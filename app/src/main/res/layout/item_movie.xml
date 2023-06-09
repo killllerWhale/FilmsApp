@@ -7,14 +7,14 @@
     app:cardCornerRadius="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="180dp"
-        android:layout_height="350dp"
+        android:layout_width="150dp"
+        android:layout_height="320dp"
         android:background="@color/back_card">
 
         <ImageView
             android:id="@+id/card_image"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="270dp"
             android:contentDescription="@string/todo"
             android:scaleType="centerCrop"
             android:src="@drawable/image"
@@ -33,7 +33,7 @@
             android:text="The legacy of the First King"
             android:textColor="@color/white"
             android:fontFamily="@font/roboto"
-            android:textSize="14sp"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

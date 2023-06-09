@@ -1,5 +1,6 @@
 package com.example.filmsapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,27 +20,31 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
-    override lateinit var binding: FragmentMoviesBinding
     private val retrofitParse = RetrofitParse()
+    private lateinit var movieAdapter: MoviesAdapter
 
     override fun makeBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentMoviesBinding {
-        binding = FragmentMoviesBinding.inflate(inflater, container, false)
-        return binding
+        return FragmentMoviesBinding.inflate(inflater)
     }
 
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val statusBarHeight = resources.getDimensionPixelSize(
+            resources.getIdentifier("status_bar_height", "dimen", "android")
+        )
+        binding.recyclerView.setPadding(0, statusBarHeight, 0, 0)
+        movieAdapter = MoviesAdapter { movie ->
+            loadFragment(MovieFragment(), movie)
+        }
+        binding.recyclerView.adapter = movieAdapter
         loadData()
     }
 
     private fun loadData() {
-        val movieAdapter = MoviesAdapter { movie ->
-            loadFragment(MovieFragment(), movie)
-        }
-        binding.recyclerView.adapter = movieAdapter
         val moviesFlow: Flow<PagingData<MovieItem>> = Pager(config = PagingConfig(pageSize = 20)) {
             MoviePagingSource(retrofitParse)
         }.flow

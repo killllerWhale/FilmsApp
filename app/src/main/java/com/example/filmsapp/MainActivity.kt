@@ -22,9 +22,4 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.container, fragment)
             .commit()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
 }

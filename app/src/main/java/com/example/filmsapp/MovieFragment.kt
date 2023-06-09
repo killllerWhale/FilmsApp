@@ -18,14 +18,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
-    override lateinit var binding: FragmentMovieBinding
-
     override fun makeBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentMovieBinding {
-        binding = FragmentMovieBinding.inflate(layoutInflater, container, false)
-        return binding
+        return FragmentMovieBinding.inflate(inflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +48,7 @@ class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
         }
     }
 
-    inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
+    private inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
         SDK_INT >= 33 -> getParcelable(key, T::class.java)
         else -> @Suppress("DEPRECATION") getParcelable(key) as? T
     }
