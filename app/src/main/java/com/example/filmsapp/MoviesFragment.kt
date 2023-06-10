@@ -58,6 +58,7 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
         }
     }
 
+
     private fun loadFragment(fragment: Fragment, movie: MovieItem) {
         val bundle = Bundle()
         bundle.putParcelable("movie", movie)
