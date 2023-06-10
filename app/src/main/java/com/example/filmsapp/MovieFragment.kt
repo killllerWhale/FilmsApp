@@ -28,6 +28,7 @@ class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val movie: MovieItem? = arguments?.parcelable("movie")
+
         binding.titleText.text = movie?.title
         binding.reviewText.text = movie?.overview
         binding.imageMovie.load("${RetrofitUrls.IMAGE_URL}${movie?.poster_path}") {

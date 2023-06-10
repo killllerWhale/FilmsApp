@@ -15,6 +15,8 @@ import com.example.filmsapp.databinding.FragmentMoviesBinding
 import com.example.filmsapp.pagingSource.MoviePagingSource
 import com.example.filmsapp.retrofit2.RetrofitParse
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -49,7 +51,7 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
             MoviePagingSource(retrofitParse)
         }.flow
 
-        lifecycleScope.launch {
+        CoroutineScope(Dispatchers.Main).launch {
             moviesFlow.collectLatest { pagingData ->
                 movieAdapter.submitData(pagingData)
             }
