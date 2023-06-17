@@ -1,4 +1,4 @@
-package com.example.filmsapp
+package com.example.filmsapp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

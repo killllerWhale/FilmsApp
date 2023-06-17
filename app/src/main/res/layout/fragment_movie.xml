@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
     android:orientation="vertical"
-    tools:context=".MovieFragment"
+    tools:context=".fragments.MovieFragment"
     tools:ignore="UselessParent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favorite"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/baseline_favorite_24"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/image_movie"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/image_movie"

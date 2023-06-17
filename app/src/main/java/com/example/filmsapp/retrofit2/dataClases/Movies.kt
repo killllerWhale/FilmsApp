@@ -9,7 +9,7 @@ data class Movies(
 )
 
 @Parcelize
-data class MovieItem(
+class MovieItem(
     val adult: Boolean,
     val backdrop_path: String,
     val id: Int,

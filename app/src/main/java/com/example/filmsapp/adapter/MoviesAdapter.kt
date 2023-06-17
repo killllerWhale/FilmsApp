@@ -1,17 +1,20 @@
 package com.example.filmsapp.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.request.CachePolicy
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.filmsapp.R
 import com.example.filmsapp.databinding.ItemMovieBinding
 import com.example.filmsapp.retrofit2.RetrofitUrls
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
 
 class MoviesAdapter(
+    private val context: Context,
     private val onItemClick: (MovieItem) -> Unit,
 ) : PagingDataAdapter<MovieItem, MoviesAdapter.MovieViewHolder>(MovieDiffCallback) {
 
@@ -42,9 +45,10 @@ class MoviesAdapter(
 
         fun bind(movie: MovieItem) {
             binding.cardTitle.text = movie.title
-            binding.cardImage.load("${RetrofitUrls.IMAGE_URL}${movie.poster_path}") {
-                memoryCachePolicy(CachePolicy.ENABLED)
-            }
+            Glide.with(context)
+                .load("${RetrofitUrls.IMAGE_URL}${movie.poster_path}")
+                .error(R.drawable.erorr)
+                .into(binding.cardImage)
         }
     }
 

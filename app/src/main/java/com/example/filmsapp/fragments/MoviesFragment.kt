@@ -1,18 +1,21 @@
-package com.example.filmsapp
+package com.example.filmsapp.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import com.example.filmsapp.R
 import com.example.filmsapp.adapter.MoviesAdapter
 import com.example.filmsapp.databinding.FragmentMoviesBinding
 import com.example.filmsapp.pagingSource.MoviePagingSource
+import com.example.filmsapp.pagingSource.MovieSearchPagingSource
 import com.example.filmsapp.retrofit2.RetrofitParse
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
 import kotlinx.coroutines.CoroutineScope
@@ -35,20 +38,32 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
     @SuppressLint("InternalInsetResource", "DiscouragedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val statusBarHeight = resources.getDimensionPixelSize(
-            resources.getIdentifier("status_bar_height", "dimen", "android")
-        )
-        binding.recyclerView.setPadding(0, statusBarHeight, 0, 0)
-        movieAdapter = MoviesAdapter { movie ->
-            loadFragment(MovieFragment(), movie)
+
+        movieAdapter = MoviesAdapter(requireContext()) { movie ->
+            loadFragment(movie)
         }
+
         binding.recyclerView.adapter = movieAdapter
-        loadData()
+        loadData(MoviePagingSource(retrofitParse))
+        searchViewCreated()
     }
 
-    private fun loadData() {
+    private fun searchViewCreated() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                loadData(MovieSearchPagingSource(retrofitParse, query))
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun loadData(pagingSource: PagingSource<Int, MovieItem>) {
         val moviesFlow: Flow<PagingData<MovieItem>> = Pager(config = PagingConfig(pageSize = 20)) {
-            MoviePagingSource(retrofitParse)
+            pagingSource
         }.flow
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -58,21 +73,9 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
         }
     }
 
-
-    private fun loadFragment(fragment: Fragment, movie: MovieItem) {
+    private fun loadFragment(movie: MovieItem) {
         val bundle = Bundle()
         bundle.putParcelable("movie", movie)
-        fragment.arguments = bundle
-
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(
-            R.anim.slide_in,
-            R.anim.fade_out,
-            R.anim.fade_in,
-            R.anim.slide_out
-        )
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        findNavController().navigate(R.id.movieFragment2, bundle)
     }
 }

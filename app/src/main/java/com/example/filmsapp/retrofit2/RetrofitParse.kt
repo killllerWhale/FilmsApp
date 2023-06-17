@@ -28,6 +28,12 @@ class RetrofitParse {
             @Query("api_key") apiKey: String,
             @Query("page") pageNumber: Int
         ): Movies
+        @GET("search/movie")
+        suspend fun getSearchMovies(
+            @Query("api_key") apiKey: String,
+            @Query("query") query: String,
+            @Query("page") pageNumber: Int
+        ): Movies
 
         @GET("movie/{id}")
         suspend fun getMovieById(
@@ -39,6 +45,15 @@ class RetrofitParse {
     suspend fun getPopularMovies(pageNumber: Int): Movies {
         return try {
             api.getPopularMovies(RetrofitUrls.API_KEY,pageNumber)
+        } catch (e: Exception) {
+            println("ggg")
+            Movies(pageNumber, listOf())
+        }
+    }
+
+    suspend fun getSearchMovies(query: String ,pageNumber: Int): Movies {
+        return try {
+            api.getSearchMovies(RetrofitUrls.API_KEY,query,pageNumber)
         } catch (e: Exception) {
             println("ggg")
             Movies(pageNumber, listOf())
