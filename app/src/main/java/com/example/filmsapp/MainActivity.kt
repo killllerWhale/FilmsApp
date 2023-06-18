@@ -2,26 +2,22 @@ package com.example.filmsapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.filmsapp.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-    }
+        setContentView(binding.root)
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
+        val bottomNavigationView = binding.bottomNavigationView
+        val navController = binding.fragmentContainerView.getFragment<NavHostFragment>().navController
+        bottomNavigationView.setupWithNavController(navController)
     }
 }

@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/moviesFragment2"
-        android:title="Movies"
+        android:title="@string/movies"
         android:icon="@drawable/baseline_movie_24"/>
     <item
         android:id="@+id/favoriteFragment2"
-        android:title="Favourites"
+        android:title="@string/favourites"
         android:icon="@drawable/baseline_favorite_24"/>
     <item
         android:id="@+id/settingsFragment2"
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/baseline_settings_24"/>
 </menu>
