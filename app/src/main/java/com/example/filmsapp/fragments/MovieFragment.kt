@@ -111,7 +111,7 @@ class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
             .into(binding.imageMovie)
 
         CoroutineScope(Dispatchers.Main).launch {
-            val movieInDetail: Movie = RetrofitParse().getMovieById(movie.id ?: 1)
+            val movieInDetail: Movie = RetrofitParse().getMovieById(movie.id)
 
             with(binding) {
                 yearOfProductionText.text = movieInDetail.release_date

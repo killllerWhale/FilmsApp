@@ -1,13 +1,15 @@
 package com.example.filmsapp.fragments
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -47,8 +49,26 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
         }
 
         binding.recyclerView.adapter = movieAdapter
-        loadData(MoviePagingSource(retrofitParse))
-        searchViewCreated()
+
+        if (isNetworkAvailable()) {
+            loadData(MoviePagingSource(retrofitParse))
+            searchViewCreated()
+        } else {
+            // Интернет недоступен
+            Toast.makeText(requireContext(), "Отсутствует подключение к интернету", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager =
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
 
     private fun searchViewCreated() {

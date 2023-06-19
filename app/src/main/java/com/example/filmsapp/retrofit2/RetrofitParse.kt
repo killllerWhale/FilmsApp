@@ -2,9 +2,6 @@ package com.example.filmsapp.retrofit2;
 
 import com.example.filmsapp.retrofit2.dataClases.Movie
 import com.example.filmsapp.retrofit2.dataClases.Movies
-import retrofit2.Call;
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;

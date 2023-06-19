@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.filmsapp.R
 import com.example.filmsapp.adapter.MoviesDbAdapter
 import com.example.filmsapp.dataBase.MainDb
-import com.example.filmsapp.dataBase.MovieItemDb
 import com.example.filmsapp.databinding.FragmentFavoriteBinding
 
 
