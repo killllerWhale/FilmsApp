@@ -11,4 +11,9 @@ interface Dao {
     fun insertMovie(movie: MovieItemDb)
     @Query("SELECT * FROM movies")
     fun getAllMovie(): Flow<List<MovieItemDb>>
+    @Query("SELECT * FROM movies WHERE id = :movieId")
+    fun getMovieById(movieId: Int): MovieItemDb?
+
+    @Query("DELETE FROM movies WHERE id = :movieId")
+    fun deleteMovieById(movieId: Int)
 }

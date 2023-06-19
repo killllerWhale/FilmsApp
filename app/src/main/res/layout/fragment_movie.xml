@@ -17,7 +17,7 @@
             android:id="@+id/favorite"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/baseline_favorite_24"
+            android:background="@drawable/icon_favorite"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="@+id/image_movie"

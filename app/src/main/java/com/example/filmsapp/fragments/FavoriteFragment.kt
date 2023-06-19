@@ -26,7 +26,7 @@ class FavoriteFragment : ViewBindingFragment<FragmentFavoriteBinding>() {
         val db = MainDb.getDb(requireContext())
 
         moviesDbAdapter = MoviesDbAdapter(requireContext()) { movie ->
-            loadFragment(movie)
+            loadFragment(movie.id)
         }
 
         binding.recyclerViewFavorite.adapter = moviesDbAdapter
@@ -35,9 +35,9 @@ class FavoriteFragment : ViewBindingFragment<FragmentFavoriteBinding>() {
         }
     }
 
-    private fun loadFragment(movie: MovieItemDb) {
-//        val bundle = Bundle()
-//        bundle.putParcelable("movie", movie)
-        findNavController().navigate(R.id.movieFragment2)
+    private fun loadFragment(id: Int) {
+        val bundle = Bundle()
+        bundle.putInt("movieId", id)
+        findNavController().navigate(R.id.movieFragment2, bundle)
     }
 }

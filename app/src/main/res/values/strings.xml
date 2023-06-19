@@ -28,4 +28,6 @@
     <string name="movies">Movies</string>
     <string name="favourites">Favourites</string>
     <string name="settings">Settings</string>
+    <string name="language">Язык приложения</string>
+    <string name="theme_app">Тема приложения</string>
 </resources>

@@ -4,13 +4,13 @@
     <item
         android:id="@+id/moviesFragment2"
         android:title="@string/movies"
-        android:icon="@drawable/baseline_movie_24"/>
+        android:icon="@drawable/icon_movie"/>
     <item
         android:id="@+id/favoriteFragment2"
         android:title="@string/favourites"
-        android:icon="@drawable/baseline_favorite_24"/>
+        android:icon="@drawable/icon_favorite"/>
     <item
         android:id="@+id/settingsFragment2"
         android:title="@string/settings"
-        android:icon="@drawable/baseline_settings_24"/>
+        android:icon="@drawable/icon_settings"/>
 </menu>

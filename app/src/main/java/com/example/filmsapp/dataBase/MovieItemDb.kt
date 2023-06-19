@@ -12,10 +12,10 @@ data class MovieItemDb (
     val overview: String,
     @ColumnInfo(name = "title")
     val title: String,
+    @ColumnInfo(name = "yearOfProduction")
+    val yearOfProduction: String,
     @ColumnInfo(name = "poster_path")
     val poster_path: String,
-    @ColumnInfo(name = "release_date")
-    val release_date: String,
     @ColumnInfo(name = "production_countries")
     val production_countries: String,
     @ColumnInfo(name = "genres")
