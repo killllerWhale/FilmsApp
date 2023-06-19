@@ -1,11 +1,13 @@
 package com.example.filmsapp.fragments
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
-import android.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -23,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
     private val retrofitParse = RetrofitParse()

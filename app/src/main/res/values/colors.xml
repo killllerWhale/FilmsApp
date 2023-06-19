@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="back_card">#3B4E51</color>
+    <color name="selected_color">#FFFFFFFF</color>
+    <color name="default_color">#40348C</color>
 </resources>
