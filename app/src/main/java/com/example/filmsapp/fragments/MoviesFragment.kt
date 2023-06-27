@@ -5,76 +5,62 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import com.example.filmsapp.R
 import com.example.filmsapp.adapter.MoviesAdapter
 import com.example.filmsapp.databinding.FragmentMoviesBinding
-import com.example.filmsapp.pagingSource.MoviePagingSource
-import com.example.filmsapp.pagingSource.MovieSearchPagingSource
-import com.example.filmsapp.retrofit2.RetrofitParse
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
 class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
-    private val retrofitParse = RetrofitParse()
-    private lateinit var movieAdapter: MoviesAdapter
+    private lateinit var vm: MoviesVM
 
     override fun makeBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentMoviesBinding {
-        return FragmentMoviesBinding.inflate(inflater)
-    }
+    ) = FragmentMoviesBinding.inflate(inflater)
 
     @SuppressLint("InternalInsetResource", "DiscouragedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        vm = ViewModelProvider(this)[MoviesVM::class.java]
+        vm.isNetworkAvailable(requireContext())
 
-        movieAdapter = MoviesAdapter(requireContext()) { movie ->
+        val movieAdapter = MoviesAdapter(requireContext()) { movie ->
             loadFragment(movie)
         }
 
         binding.recyclerView.adapter = movieAdapter
 
-        if (isNetworkAvailable()) {
-            loadData(MoviePagingSource(retrofitParse))
-            searchViewCreated()
-        } else {
-            // Интернет недоступен
-            Toast.makeText(requireContext(), "Отсутствует подключение к интернету", Toast.LENGTH_SHORT).show()
+        vm.isNetworkAvailableBoolean.observe(viewLifecycleOwner) {
+            if (it) {
+                vm.moviesFlowResult.observe(viewLifecycleOwner) { pagingData ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        movieAdapter.submitData(pagingData)
+                    }
+                }
+                searchViewCreated()
+            } else {
+                // Интернет недоступен
+                Toast.makeText(
+                    requireContext(),
+                    "Отсутствует подключение к интернету",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager =
-            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val network = connectivityManager.activeNetwork ?: return false
-        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
-
-        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
 
     private fun searchViewCreated() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                loadData(MovieSearchPagingSource(retrofitParse, query))
+                vm.searchMovies(query)
                 return true
             }
 
@@ -82,18 +68,6 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
                 return false
             }
         })
-    }
-
-    private fun loadData(pagingSource: PagingSource<Int, MovieItem>) {
-        val moviesFlow: Flow<PagingData<MovieItem>> = Pager(config = PagingConfig(pageSize = 20)) {
-            pagingSource
-        }.flow
-
-        CoroutineScope(Dispatchers.Main).launch {
-            moviesFlow.collectLatest { pagingData ->
-                movieAdapter.submitData(pagingData)
-            }
-        }
     }
 
     private fun loadFragment(movie: MovieItem) {
