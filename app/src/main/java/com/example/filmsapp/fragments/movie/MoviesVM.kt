@@ -1,4 +1,4 @@
-package com.example.filmsapp.fragments
+package com.example.filmsapp.fragments.movie
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import com.example.filmsapp.pagingSource.MoviePagingSource
 import com.example.filmsapp.pagingSource.MovieSearchPagingSource
 import com.example.filmsapp.retrofit2.RetrofitParse

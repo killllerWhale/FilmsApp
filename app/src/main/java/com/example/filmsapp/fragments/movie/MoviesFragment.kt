@@ -1,4 +1,4 @@
-package com.example.filmsapp.fragments
+package com.example.filmsapp.fragments.movie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.filmsapp.R
 import com.example.filmsapp.adapter.MoviesAdapter
 import com.example.filmsapp.databinding.FragmentMoviesBinding
+import com.example.filmsapp.fragments.ViewBindingFragment
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,7 +26,9 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
         }
     }
 
-    private lateinit var vm: MoviesVM
+    private val vm by lazy {
+        ViewModelProvider(this)[MoviesVM::class.java]
+    }
 
     override fun makeBinding(
         inflater: LayoutInflater,
@@ -34,8 +37,6 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        vm = ViewModelProvider(this)[MoviesVM::class.java]
 
         if (!vm.isNetworkAvailable(requireContext())) {
             Toast.makeText(
