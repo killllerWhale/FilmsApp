@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.filmsapp.R
 import com.example.filmsapp.dataBase.MainDb
 import com.example.filmsapp.dataBase.MovieItemDb
 import com.example.filmsapp.retrofit2.RetrofitParse
@@ -30,18 +29,20 @@ class MovieVM : ViewModel() {
     val genreText = MutableStateFlow("")
     val directorText = MutableStateFlow("")
     val sloganText = MutableStateFlow("")
+    private val movieId =  MutableStateFlow(0)
 
     fun initializeMovie(arguments: Bundle?, context: Context) {
         db = MainDb.getDb(context)
-        checkFavorite(arguments!!.getInt("movieId"))
-        if (arguments.getInt("movieId") == 0) {
+        if (arguments!!.getInt("movieId") == 0) {
             initializeByParcelable(arguments)
         } else {
             initializeByDb(arguments.getInt("movieId"))
         }
+        checkFavorite()
     }
 
     private fun initializeByDb(id: Int) {
+        movieId.value = id
         viewModelScope.launch(Dispatchers.IO) {
             val movieItemDb = db.getDao().getMovieById(id)
             val imageUrl = movieItemDb!!.poster_path
@@ -61,6 +62,7 @@ class MovieVM : ViewModel() {
         titleText.value = movie!!.title
         reviewText.value = movie.overview
         posterPath.value = "${RetrofitUrls.IMAGE_URL}${movie.poster_path}"
+        movieId.value = movie.id
 
         viewModelScope.launch(Dispatchers.IO) {
             val movieInDetail: Movie = RetrofitParse().getMovieById(movie.id)
@@ -74,18 +76,18 @@ class MovieVM : ViewModel() {
         }
     }
 
-    private fun checkFavorite(id: Int) {
+    private fun checkFavorite() {
         viewModelScope.launch(Dispatchers.IO) {
-            isFavorite.value = db.getDao().getMovieById(id) != null
+            isFavorite.value = db.getDao().getMovieById(movieId.value) != null
         }
     }
 
-    fun favorite(id: Int) {
+    fun favorite() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (db.getDao().getMovieById(id) == null) {
+            if (db.getDao().getMovieById(movieId.value) == null) {
                 db.getDao().insertMovie(
                     MovieItemDb(
-                        id,
+                        movieId.value,
                         reviewText.value,
                         titleText.value,
                         yearOfProductionText.value,
@@ -98,7 +100,7 @@ class MovieVM : ViewModel() {
                 )
                 isFavorite.value = true
             } else {
-                db.getDao().deleteMovieById(id)
+                db.getDao().deleteMovieById(movieId.value)
                 isFavorite.value = false
             }
         }

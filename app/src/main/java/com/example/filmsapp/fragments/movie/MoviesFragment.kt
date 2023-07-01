@@ -56,13 +56,13 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
 
     private fun searchViewCreated() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                vm.searchMovies(query)
+            override fun onQueryTextSubmit(query: String) = false
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                vm.searchMovies(newText)
                 movieAdapter.refresh()
                 return true
             }
-
-            override fun onQueryTextChange(newText: String) = false
         })
     }
 

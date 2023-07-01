@@ -1,5 +1,6 @@
 package com.example.filmsapp.fragments.movie
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,11 +32,33 @@ class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
         vm.initializeMovie(arguments, requireContext())
 
         binding.favorite.setOnClickListener {
-            vm.favorite(requireArguments().getInt("movieId"))
+            vm.favorite()
+            if (!vm.isFavorite.value) {
+                binding.favorite.visibility = View.INVISIBLE
+                with(binding.lottieAnimationView) {
+                    visibility = View.VISIBLE
+                    playAnimation()
+                    addAnimatorListener(object : Animator.AnimatorListener {
+                        override fun onAnimationStart(animation: Animator) {}
+
+                        override fun onAnimationEnd(animation: Animator) {
+                            visibility = View.GONE
+                            binding.favorite.visibility = View.VISIBLE
+                        }
+
+                        override fun onAnimationCancel(animation: Animator) {}
+
+                        override fun onAnimationRepeat(animation: Animator) {}
+                    })
+                }
+            }
         }
 
         vm.isFavorite
-            .onEach { if (it) binding.favorite.setBackgroundResource(R.drawable.icon_favorite_press) }
+            .onEach {
+                if (it) binding.favorite.setBackgroundResource(R.drawable.icon_favorite_press)
+                else binding.favorite.setBackgroundResource(R.drawable.icon_favorite)
+            }
             .launchIn(lifecycleScope)
 
         combine(
