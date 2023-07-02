@@ -1,37 +1,45 @@
-package com.example.filmsapp.fragments
+package com.example.filmsapp.fragments.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.filmsapp.R
 import com.example.filmsapp.adapter.MoviesDbAdapter
 import com.example.filmsapp.dataBase.MainDb
 import com.example.filmsapp.databinding.FragmentFavoriteBinding
+import com.example.filmsapp.fragments.ViewBindingFragment
+import com.example.filmsapp.fragments.movie.MoviesVM
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 class FavoriteFragment : ViewBindingFragment<FragmentFavoriteBinding>() {
-    private lateinit var moviesDbAdapter: MoviesDbAdapter
+
+    private val vm by lazy {
+        ViewModelProvider(this)[FavoriteVM::class.java]
+    }
 
     override fun makeBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentFavoriteBinding {
-        return FragmentFavoriteBinding.inflate(inflater)
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val db = MainDb.getDb(requireContext())
+    ) = FragmentFavoriteBinding.inflate(inflater)
 
-        moviesDbAdapter = MoviesDbAdapter(requireContext()) { movie ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        vm.createDb(requireContext())
+
+        val moviesDbAdapter = MoviesDbAdapter(requireContext()) { movie ->
             loadFragment(movie.id)
         }
-
         binding.recyclerViewFavorite.adapter = moviesDbAdapter
-        db.getDao().getAllMovie().asLiveData().observe(requireActivity()){
+
+        vm.allMoviesFlow.onEach {
             moviesDbAdapter.submitData(it)
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun loadFragment(id: Int) {
