@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.Flow
 interface Dao {
     @Insert
     fun insertMovie(movie: MovieItemDb)
+
     @Query("SELECT * FROM movies")
     fun getAllMovie(): Flow<List<MovieItemDb>>
+
     @Query("SELECT * FROM movies WHERE id = :movieId")
     fun getMovieById(movieId: Int): MovieItemDb?
 

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
 
 @Entity(tableName = "movies")
-data class MovieItemDb (
+data class MovieItemDb(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val overview: String,
