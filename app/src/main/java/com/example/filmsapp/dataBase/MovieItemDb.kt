@@ -8,20 +8,12 @@ import androidx.room.ColumnInfo
 data class MovieItemDb (
     @PrimaryKey(autoGenerate = false)
     val id: Int,
-    @ColumnInfo(name = "overview")
     val overview: String,
-    @ColumnInfo(name = "title")
     val title: String,
-    @ColumnInfo(name = "yearOfProduction")
     val yearOfProduction: String,
-    @ColumnInfo(name = "poster_path")
     val poster_path: String,
-    @ColumnInfo(name = "production_countries")
     val production_countries: String,
-    @ColumnInfo(name = "genres")
     val genres: String,
-    @ColumnInfo(name = "production_companies")
     val production_companies: String,
-    @ColumnInfo(name = "tagline")
     val tagline: String
 )
