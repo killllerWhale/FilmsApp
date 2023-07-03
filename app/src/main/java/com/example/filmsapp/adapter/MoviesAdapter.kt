@@ -53,7 +53,7 @@ class MoviesAdapter(
 
     object MovieDiffCallback : DiffUtil.ItemCallback<MovieItem>() {
         override fun areItemsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean {
-            return oldItem.id == newItem.id && oldItem.backdrop_path == newItem.backdrop_path
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean {

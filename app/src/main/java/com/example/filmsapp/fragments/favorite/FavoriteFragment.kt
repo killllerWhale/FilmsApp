@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.filmsapp.R
 import com.example.filmsapp.adapter.MoviesDbAdapter
-import com.example.filmsapp.dataBase.MainDb
 import com.example.filmsapp.databinding.FragmentFavoriteBinding
 import com.example.filmsapp.fragments.ViewBindingFragment
-import com.example.filmsapp.fragments.movie.MoviesVM
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -37,9 +34,11 @@ class FavoriteFragment : ViewBindingFragment<FragmentFavoriteBinding>() {
         }
         binding.recyclerViewFavorite.adapter = moviesDbAdapter
 
-        vm.allMoviesFlow.onEach {
-            moviesDbAdapter.submitData(it)
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        vm.allMoviesFlow
+            .onEach {
+                moviesDbAdapter.submitData(it)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun loadFragment(id: Int) {

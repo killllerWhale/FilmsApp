@@ -8,8 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 
-class FavoriteVM() : ViewModel() {
+class FavoriteVM : ViewModel() {
+
     private lateinit var db: MainDb
+
     val allMoviesFlow: Flow<List<MovieItemDb>> by lazy {
         db.getDao().getAllMovie().flowOn(Dispatchers.IO)
     }

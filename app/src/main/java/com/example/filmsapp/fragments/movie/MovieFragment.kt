@@ -56,8 +56,10 @@ class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
 
         vm.isFavorite
             .onEach {
-                if (it) binding.favorite.setBackgroundResource(R.drawable.icon_favorite_press)
-                else binding.favorite.setBackgroundResource(R.drawable.icon_favorite)
+                binding.favorite.setBackgroundResource(
+                    if (it) R.drawable.icon_favorite_press
+                    else R.drawable.icon_favorite
+                )
             }
             .launchIn(lifecycleScope)
 

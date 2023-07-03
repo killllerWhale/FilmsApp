@@ -6,7 +6,7 @@
     app:startDestination="@id/moviesFragment2">
     <fragment
         android:id="@+id/moviesFragment2"
-        android:name="com.example.filmsapp.fragments.movie.MoviesFragment"
+        android:name="com.example.filmsapp.fragments.movies.MoviesFragment"
         android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" >
         <action

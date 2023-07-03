@@ -1,4 +1,4 @@
-package com.example.filmsapp.fragments.movie
+package com.example.filmsapp.fragments.movies
 
 import android.content.Context
 import android.net.ConnectivityManager

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.filmsapp.dataBase.Dao
 import com.example.filmsapp.dataBase.MainDb
 import com.example.filmsapp.dataBase.MovieItemDb
 import com.example.filmsapp.retrofit2.RetrofitParse
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class MovieVM : ViewModel() {
 
-    private lateinit var db: MainDb
+    private lateinit var db: Dao
     val isFavorite = MutableStateFlow(false)
     val titleText = MutableStateFlow("")
     val reviewText = MutableStateFlow("")
@@ -32,7 +33,7 @@ class MovieVM : ViewModel() {
     private val movieId =  MutableStateFlow(0)
 
     fun initializeMovie(arguments: Bundle?, context: Context) {
-        db = MainDb.getDb(context)
+        db = MainDb.getDb(context).getDao()
         if (arguments!!.getInt("movieId") == 0) {
             initializeByParcelable(arguments)
         } else {
@@ -44,7 +45,7 @@ class MovieVM : ViewModel() {
     private fun initializeByDb(id: Int) {
         movieId.value = id
         viewModelScope.launch(Dispatchers.IO) {
-            val movieItemDb = db.getDao().getMovieById(id)
+            val movieItemDb = db.getMovieById(id)
             val imageUrl = movieItemDb!!.poster_path
             posterPath.value = "${RetrofitUrls.IMAGE_URL}${imageUrl}"
             yearOfProductionText.value = movieItemDb.yearOfProduction
@@ -78,14 +79,14 @@ class MovieVM : ViewModel() {
 
     private fun checkFavorite() {
         viewModelScope.launch(Dispatchers.IO) {
-            isFavorite.value = db.getDao().getMovieById(movieId.value) != null
+            isFavorite.value = db.getMovieById(movieId.value) != null
         }
     }
 
     fun favorite() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (db.getDao().getMovieById(movieId.value) == null) {
-                db.getDao().insertMovie(
+            if (db.getMovieById(movieId.value) == null) {
+                db.insertMovie(
                     MovieItemDb(
                         movieId.value,
                         reviewText.value,
@@ -100,7 +101,7 @@ class MovieVM : ViewModel() {
                 )
                 isFavorite.value = true
             } else {
-                db.getDao().deleteMovieById(movieId.value)
+                db.deleteMovieById(movieId.value)
                 isFavorite.value = false
             }
         }
