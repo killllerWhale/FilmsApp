@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.FilmsApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/item_night</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="searchIcon">@drawable/ic_search_night</item>
+        <item name="closeIcon">@drawable/ic_close_night</item>
+        <item name="android:background">@color/item_night</item>
+    </style>
+
+    <style name="CustomScreen">
+        <item name="android:background">@drawable/background_gradient_night</item>
+    </style>
+
+    <style name="CustomItemCard">
+        <item name="android:background">@color/item_night</item>
+    </style>
+
+    <style name="CustomText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

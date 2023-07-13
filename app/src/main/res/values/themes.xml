@@ -2,8 +2,27 @@
     <!-- Base application theme. -->
     <style name="Theme.FilmsApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/back_card</item>
+        <item name="colorPrimary">@color/item_light</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="CustomSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorHint">@color/text_light</item>
+        <item name="searchIcon">@drawable/ic_search</item>
+        <item name="closeIcon">@drawable/ic_close</item>
+        <item name="android:background">@color/item_light</item>
+    </style>
+
+    <style name="CustomScreen">
+        <item name="android:background">@drawable/background_gradient</item>
+    </style>
+
+    <style name="CustomItemCard">
+        <item name="android:background">@color/item_light</item>
+    </style>
+
+    <style name="CustomText">
+        <item name="android:textColor">@color/text_light</item>
     </style>
 </resources>

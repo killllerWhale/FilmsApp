@@ -5,9 +5,13 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    //night
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="back_card">#3B4E51</color>
+    <color name="item_night">#3B4E51</color>
+    //light
     <color name="selected_color">#FFFFFFFF</color>
     <color name="default_color">#40348C</color>
+    <color name="text_light">#484848</color>
+    <color name="item_light">#64C9D9</color>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    style="@style/CustomScreen"
     tools:context=".fragments.setting.SettingsFragment">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/settings"
-        android:textColor="@android:color/white"
+        style="@style/CustomText"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,13 +27,25 @@
         android:layout_marginTop="20dp"
         android:padding="16dp"
         android:text="@string/theme_app"
-        android:textColor="@android:color/white"
+        style="@style/CustomText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_title" />
 
+    <TextView
+        android:id="@+id/textViewTheme2"
+        style="@style/CustomText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:padding="16dp"
+        android:text="@string/theme_system_app"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTheme" />
+
     <Switch
-        android:id="@+id/sound_switch"
+        android:id="@+id/theme_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleX="1.5"
@@ -44,16 +56,29 @@
         app:layout_constraintTop_toTopOf="@+id/textViewTheme"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-    <TextView
-        android:id="@+id/textViewLanguage"
+    <Switch
+        android:id="@+id/systemThemeSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTheme2"
+        app:layout_constraintEnd_toEndOf="@+id/theme_switch"
+        app:layout_constraintStart_toStartOf="@+id/theme_switch"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTheme"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/textViewLanguage"
+        style="@style/CustomText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:padding="16dp"
         android:text="@string/language"
-        android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewTheme"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTheme" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTheme2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

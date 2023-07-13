@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.filmsapp.R
@@ -16,6 +14,7 @@ import com.example.filmsapp.fragments.ViewBindingFragment
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
@@ -26,9 +25,7 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
         }
     }
 
-    private val vm by lazy {
-        ViewModelProvider(this)[MoviesVM::class.java]
-    }
+    private val vm: MoviesVM by viewModel()
 
     override fun makeBinding(
         inflater: LayoutInflater,
@@ -55,7 +52,8 @@ class MoviesFragment : ViewBindingFragment<FragmentMoviesBinding>() {
     }
 
     private fun searchViewCreated() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String) = false
 
             override fun onQueryTextChange(newText: String): Boolean {

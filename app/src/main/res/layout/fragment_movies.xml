@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.movies.MoviesFragment"
-    android:background="@drawable/background_gradient">
+    style="@style/CustomScreen">
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Введите текст для поиска"
-        android:background="@color/white"
+        app:queryHint="Введите текст для поиска"
+        app:theme="@style/CustomSearchView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

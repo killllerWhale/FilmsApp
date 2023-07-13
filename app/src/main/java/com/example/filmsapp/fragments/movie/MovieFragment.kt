@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.filmsapp.R
@@ -14,12 +13,11 @@ import com.example.filmsapp.fragments.ViewBindingFragment
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : ViewBindingFragment<FragmentMovieBinding>() {
 
-    private val vm by lazy {
-        ViewModelProvider(this)[MovieVM::class.java]
-    }
+    private val vm: MovieVM by viewModel<MovieVM>()
 
     override fun makeBinding(
         inflater: LayoutInflater,
