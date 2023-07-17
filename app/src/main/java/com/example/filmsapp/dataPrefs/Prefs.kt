@@ -18,7 +18,7 @@ class Prefs(context: Context) {
     }
 
     var modeTheme: Int?
-        get() = sharedPreferences.getInt(KEY_MODE_THEME, 0)
+        get() = sharedPreferences.getInt(KEY_MODE_THEME, 1)
         set(value) = sharedPreferences.edit { putInt(KEY_MODE_THEME, value!!) }
 
 

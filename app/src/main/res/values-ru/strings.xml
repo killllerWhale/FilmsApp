@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">FilmsApp</string>
+    <string name="todo">TODO</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="about_the_film">О фильме</string>
+    <string name="year_of_production">Год выпуска</string>
+    <string name="country">Страна</string>
+    <string name="genre">Жанр</string>
+    <string name="director">Режиссер</string>
+    <string name="more_detailed">Подробнее</string>
+    <string name="review">Обзор</string>
+    <string name="slogan">Слоган</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Сообщения</string>
+    <string name="sync_header">Синхронизация</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Ваша подпись</string>
+    <string name="reply_title">Действие по умолчанию при ответе</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Периодическая синхронизация почты</string>
+    <string name="attachment_title">Скачивание входящих вложений</string>
+    <string name="attachment_summary_on">Автоматически скачивать вложения из входящих писем</string>
+    <string name="attachment_summary_off">Скачивать вложения только по запросу</string>
+    <string name="movies">Фильмы</string>
+    <string name="favourites">Избранное</string>
+    <string name="settings">Настройки</string>
+    <string name="language">Язык приложения</string>
+    <string name="theme_app">Темная тема</string>
+    <string name="theme_system_app">Системная тема</string>
+    <string name="night">темная</string>
+    <string name="light">светлая</string>
+    <string name="system">системная</string>
+</resources>

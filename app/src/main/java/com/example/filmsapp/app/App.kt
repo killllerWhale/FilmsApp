@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.filmsapp.di.appModule
 import org.koin.core.context.startKoin
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.filmsapp.R
 import com.example.filmsapp.dataPrefs.Prefs
 import org.koin.android.ext.koin.androidContext
 
@@ -26,8 +27,8 @@ class App : Application() {
         }
 
         when (prefs.modeTheme) {
-            1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            0 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
