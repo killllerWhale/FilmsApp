@@ -4,9 +4,9 @@ import android.app.Application
 import com.example.filmsapp.di.appModule
 import org.koin.core.context.startKoin
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.filmsapp.R
 import com.example.filmsapp.dataPrefs.Prefs
 import org.koin.android.ext.koin.androidContext
+import org.koin.java.KoinJavaComponent.get
 
 class App : Application() {
 
@@ -14,8 +14,6 @@ class App : Application() {
         lateinit var instance: App
             private set
     }
-
-    val prefs: Prefs by lazy { Prefs.getInstance(this) }
 
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +23,8 @@ class App : Application() {
             androidContext(this@App)
             modules(appModule)
         }
+
+        val prefs: Prefs = get(Prefs::class.java)
 
         when (prefs.modeTheme) {
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

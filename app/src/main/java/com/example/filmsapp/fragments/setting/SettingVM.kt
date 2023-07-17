@@ -8,13 +8,11 @@ import com.example.filmsapp.R
 import com.example.filmsapp.dataPrefs.Prefs
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class SettingVM : ViewModel() {
+class SettingVM(private val prefs: Prefs) : ViewModel() {
 
     val systemThemeString = MutableStateFlow("")
-    private lateinit var prefs: Prefs
 
     fun initialize(context: Context) {
-        prefs = Prefs.getInstance(context)
         when (prefs.modeTheme) {
             1 -> systemThemeString.value = context.getString(R.string.light)
             2 -> systemThemeString.value = context.getString(R.string.night)
