@@ -13,9 +13,8 @@ import com.example.filmsapp.retrofit2.RetrofitParse
 import com.example.filmsapp.retrofit2.dataClases.MovieItem
 import kotlinx.coroutines.flow.Flow
 
-class MoviesVM : ViewModel() {
+class MoviesVM(private val retrofitParse: RetrofitParse) : ViewModel() {
 
-    private val retrofitParse = RetrofitParse()
     private var searchToken = ""
     val moviesFlow: Flow<PagingData<MovieItem>> = Pager(config = PagingConfig(pageSize = 20)) {
         if (searchToken.isBlank()) MoviePagingSource(retrofitParse)

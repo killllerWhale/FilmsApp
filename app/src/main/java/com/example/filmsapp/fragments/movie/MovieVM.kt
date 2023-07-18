@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 
 
-class MovieVM : ViewModel() {
+class MovieVM(private val retrofitParse: RetrofitParse) : ViewModel() {
 
     private lateinit var db: Dao
     val isFavorite = MutableStateFlow(false)
@@ -66,7 +66,7 @@ class MovieVM : ViewModel() {
         movieId.value = movie.id
 
         viewModelScope.launch(Dispatchers.IO) {
-            val movieInDetail: Movie = RetrofitParse().getMovieById(movie.id)
+            val movieInDetail: Movie = retrofitParse.getMovieById(movie.id)
             yearOfProductionText.value = movieInDetail.release_date
             countryText.value =
                 movieInDetail.production_countries.joinToString(", ") { it.name }

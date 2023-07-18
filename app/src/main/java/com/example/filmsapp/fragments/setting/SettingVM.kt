@@ -5,10 +5,11 @@ import android.provider.Settings.System.getString
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.example.filmsapp.R
+import com.example.filmsapp.dataPrefs.IPrefs
 import com.example.filmsapp.dataPrefs.Prefs
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class SettingVM(private val prefs: Prefs) : ViewModel() {
+class SettingVM(private val prefs: IPrefs) : ViewModel() {
 
     val systemThemeString = MutableStateFlow("")
 

@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.filmsapp.di.appModule
 import org.koin.core.context.startKoin
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.filmsapp.dataPrefs.IPrefs
 import com.example.filmsapp.dataPrefs.Prefs
 import org.koin.android.ext.koin.androidContext
 import org.koin.java.KoinJavaComponent.get
@@ -24,7 +25,7 @@ class App : Application() {
             modules(appModule)
         }
 
-        val prefs: Prefs = get(Prefs::class.java)
+        val prefs: IPrefs = get(IPrefs::class.java)
 
         when (prefs.modeTheme) {
             1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
